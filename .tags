@@ -1,0 +1,69 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	0	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+sys	/Users/liuchang/Documents/Workspace/SearchEngine/cold_dish/getLinks.py	/^import sys$/;"	namespace	line:2
+urllib2	/Users/liuchang/Documents/Workspace/SearchEngine/cold_dish/getLinks.py	/^import urllib2$/;"	namespace	line:3
+urllib	/Users/liuchang/Documents/Workspace/SearchEngine/cold_dish/getLinks.py	/^import urllib$/;"	namespace	line:4
+re	/Users/liuchang/Documents/Workspace/SearchEngine/cold_dish/getLinks.py	/^import re$/;"	namespace	line:5
+os	/Users/liuchang/Documents/Workspace/SearchEngine/cold_dish/getLinks.py	/^import os$/;"	namespace	line:6
+shutil	/Users/liuchang/Documents/Workspace/SearchEngine/cold_dish/getLinks.py	/^import shutil$/;"	namespace	line:7
+index	/Users/liuchang/Documents/Workspace/SearchEngine/cold_dish/getLinks.py	/^index = 0$/;"	variable	line:9
+Spider	/Users/liuchang/Documents/Workspace/SearchEngine/cold_dish/getLinks.py	/^class Spider:$/;"	class	line:13
+__init__	/Users/liuchang/Documents/Workspace/SearchEngine/cold_dish/getLinks.py	/^	def __init__(self):$/;"	member	line:15	class:Spider
+StoreLinks	/Users/liuchang/Documents/Workspace/SearchEngine/cold_dish/getLinks.py	/^	def StoreLinks(self):$/;"	member	line:20	class:Spider
+GetPages	/Users/liuchang/Documents/Workspace/SearchEngine/cold_dish/getLinks.py	/^	def GetPages(self):$/;"	member	line:29	class:Spider
+GetLinks	/Users/liuchang/Documents/Workspace/SearchEngine/cold_dish/getLinks.py	/^	def GetLinks(self,url): 		# get the links and the words$/;"	member	line:39	class:Spider
+GetAllLinks	/Users/liuchang/Documents/Workspace/SearchEngine/cold_dish/getLinks.py	/^	def GetAllLinks(self):$/;"	member	line:65	class:Spider
+ShowAllLinks	/Users/liuchang/Documents/Workspace/SearchEngine/cold_dish/getLinks.py	/^	def ShowAllLinks(self):$/;"	member	line:69	class:Spider
+ShowAllPages	/Users/liuchang/Documents/Workspace/SearchEngine/cold_dish/getLinks.py	/^	def ShowAllPages(self):$/;"	member	line:74	class:Spider
+fp	/Users/liuchang/Documents/Workspace/SearchEngine/cold_dish/getLinks.py	/^fp = open('cold_dish.db', 'a+')$/;"	variable	line:80
+spider	/Users/liuchang/Documents/Workspace/SearchEngine/cold_dish/getLinks.py	/^spider = Spider()$/;"	variable	line:81
+sys	/Users/liuchang/Documents/Workspace/SearchEngine/getInfo.py	/^import sys$/;"	namespace	line:2
+urllib2	/Users/liuchang/Documents/Workspace/SearchEngine/getInfo.py	/^import urllib2$/;"	namespace	line:3
+urllib	/Users/liuchang/Documents/Workspace/SearchEngine/getInfo.py	/^import urllib$/;"	namespace	line:4
+re	/Users/liuchang/Documents/Workspace/SearchEngine/getInfo.py	/^import re$/;"	namespace	line:5
+os	/Users/liuchang/Documents/Workspace/SearchEngine/getInfo.py	/^import os$/;"	namespace	line:6
+shutil	/Users/liuchang/Documents/Workspace/SearchEngine/getInfo.py	/^import shutil$/;"	namespace	line:7
+index	/Users/liuchang/Documents/Workspace/SearchEngine/getInfo.py	/^index = 0$/;"	variable	line:9
+Spider	/Users/liuchang/Documents/Workspace/SearchEngine/getInfo.py	/^class Spider:$/;"	class	line:13
+__init__	/Users/liuchang/Documents/Workspace/SearchEngine/getInfo.py	/^	def __init__(self):$/;"	member	line:15	class:Spider
+StoreLinks	/Users/liuchang/Documents/Workspace/SearchEngine/getInfo.py	/^	def StoreLinks(self):$/;"	member	line:20	class:Spider
+GetTargetText	/Users/liuchang/Documents/Workspace/SearchEngine/getInfo.py	/^	def GetTargetText(self,url): 		# get the target content$/;"	member	line:31	class:Spider
+links_solved	/Users/liuchang/Documents/Workspace/SearchEngine/getInfo.py	/^links_solved = open('breakfast.info', 'w')$/;"	variable	line:68
+links_unsolved	/Users/liuchang/Documents/Workspace/SearchEngine/getInfo.py	/^links_unsolved = open('unsolved.db', 'a' )$/;"	variable	line:69
+spider	/Users/liuchang/Documents/Workspace/SearchEngine/getInfo.py	/^spider = Spider()$/;"	variable	line:70
+sys	/Users/liuchang/Documents/Workspace/SearchEngine/getLink.py	/^import sys$/;"	namespace	line:2
+urllib2	/Users/liuchang/Documents/Workspace/SearchEngine/getLink.py	/^import urllib2$/;"	namespace	line:3
+urllib	/Users/liuchang/Documents/Workspace/SearchEngine/getLink.py	/^import urllib$/;"	namespace	line:4
+re	/Users/liuchang/Documents/Workspace/SearchEngine/getLink.py	/^import re$/;"	namespace	line:5
+os	/Users/liuchang/Documents/Workspace/SearchEngine/getLink.py	/^import os$/;"	namespace	line:6
+shutil	/Users/liuchang/Documents/Workspace/SearchEngine/getLink.py	/^import shutil$/;"	namespace	line:7
+index	/Users/liuchang/Documents/Workspace/SearchEngine/getLink.py	/^index = 0$/;"	variable	line:9
+Spider	/Users/liuchang/Documents/Workspace/SearchEngine/getLink.py	/^class Spider:$/;"	class	line:13
+__init__	/Users/liuchang/Documents/Workspace/SearchEngine/getLink.py	/^	def __init__(self):$/;"	member	line:15	class:Spider
+GetLinks	/Users/liuchang/Documents/Workspace/SearchEngine/getLink.py	/^	def GetLinks(self,url): 		# get the links and the words$/;"	member	line:20	class:Spider
+GetAllLinks	/Users/liuchang/Documents/Workspace/SearchEngine/getLink.py	/^	def GetAllLinks(self,url):   # too many bugs, don't use it!$/;"	member	line:45	class:Spider
+ShowAllLinks	/Users/liuchang/Documents/Workspace/SearchEngine/getLink.py	/^	def ShowAllLinks(self):$/;"	member	line:57	class:Spider
+GetKeyWords	/Users/liuchang/Documents/Workspace/SearchEngine/getLink.py	/^	def GetKeyWords(self):$/;"	member	line:62	class:Spider
+spider	/Users/liuchang/Documents/Workspace/SearchEngine/getLink.py	/^spider = Spider()$/;"	variable	line:90
+sys	/Users/liuchang/Documents/Workspace/SearchEngine/getLinks.py	/^import sys$/;"	namespace	line:2
+urllib2	/Users/liuchang/Documents/Workspace/SearchEngine/getLinks.py	/^import urllib2$/;"	namespace	line:3
+urllib	/Users/liuchang/Documents/Workspace/SearchEngine/getLinks.py	/^import urllib$/;"	namespace	line:4
+re	/Users/liuchang/Documents/Workspace/SearchEngine/getLinks.py	/^import re$/;"	namespace	line:5
+os	/Users/liuchang/Documents/Workspace/SearchEngine/getLinks.py	/^import os$/;"	namespace	line:6
+shutil	/Users/liuchang/Documents/Workspace/SearchEngine/getLinks.py	/^import shutil$/;"	namespace	line:7
+index	/Users/liuchang/Documents/Workspace/SearchEngine/getLinks.py	/^index = 0$/;"	variable	line:9
+Spider	/Users/liuchang/Documents/Workspace/SearchEngine/getLinks.py	/^class Spider:$/;"	class	line:13
+__init__	/Users/liuchang/Documents/Workspace/SearchEngine/getLinks.py	/^	def __init__(self):$/;"	member	line:15	class:Spider
+StoreLinks	/Users/liuchang/Documents/Workspace/SearchEngine/getLinks.py	/^	def StoreLinks(self):$/;"	member	line:20	class:Spider
+GetPages	/Users/liuchang/Documents/Workspace/SearchEngine/getLinks.py	/^	def GetPages(self):$/;"	member	line:29	class:Spider
+GetLinks	/Users/liuchang/Documents/Workspace/SearchEngine/getLinks.py	/^	def GetLinks(self,url): 		# get the links and the words$/;"	member	line:39	class:Spider
+GetAllLinks	/Users/liuchang/Documents/Workspace/SearchEngine/getLinks.py	/^	def GetAllLinks(self):$/;"	member	line:66	class:Spider
+ShowAllLinks	/Users/liuchang/Documents/Workspace/SearchEngine/getLinks.py	/^	def ShowAllLinks(self):$/;"	member	line:70	class:Spider
+ShowAllPages	/Users/liuchang/Documents/Workspace/SearchEngine/getLinks.py	/^	def ShowAllPages(self):$/;"	member	line:75	class:Spider
+fp	/Users/liuchang/Documents/Workspace/SearchEngine/getLinks.py	/^fp = open('cook_dish.db', 'a+')$/;"	variable	line:81
+spider	/Users/liuchang/Documents/Workspace/SearchEngine/getLinks.py	/^spider = Spider()$/;"	variable	line:82
+SearchEngine	/Users/liuchang/Documents/Workspace/SearchEngine/README.md	/^# SearchEngine$/;"	function	line:1
