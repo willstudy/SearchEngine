@@ -193,7 +193,7 @@ class Spider:
 	def Run( self, url ):
 
 		chinese = re.compile( u"[。，？：；、\u4e00-\u9fa5]+", re.S )
-		target_text = spider.GetTargetText( url )
+		target_text = spider.GetTargetText( url )    # reduce the word load
 
 		if target_text :
 
@@ -266,7 +266,7 @@ class Spider:
 			self.Clear()
 			count += 1
 
-os.chdir("data")  # "data" is a directory
+os.chdir("data")   # "data" is a directory
 links_solved = open('soochow_dish.db', 'r')
 links_unsolved = open('unsolved.db', 'a' )   # when parsed failed, it will be stored here
 links_store = open('info.db', 'a' )
