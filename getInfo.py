@@ -268,7 +268,7 @@ class Spider:
 
 os.chdir("data")  # "data" is a directory
 links_solved = open('soochow_dish.db', 'r')
-links_unsolved = open('unsolved.db', 'a' )   # when was parsed failed, it will was stored here
+links_unsolved = open('unsolved.db', 'a' )   # when parsed failed, it will be stored here
 links_store = open('info.db', 'a' )
 
 spider = Spider()
