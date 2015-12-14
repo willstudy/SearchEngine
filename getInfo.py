@@ -193,7 +193,7 @@ class Spider:
 	def Run( self, url ):
 
 		chinese = re.compile( u"[。，？：；、\u4e00-\u9fa5]+", re.S )
-		target_text = spider.GetTargetText( url )
+		target_text = spider.GetTargetText( url ) # reduce the word load
 
 		if target_text :
 
