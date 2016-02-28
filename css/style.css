@@ -1,0 +1,59 @@
+body
+{
+    margin: 0px;
+}
+
+#container
+{
+    width: 100%;
+    height: auto;
+}
+
+#heading
+{
+    width: 100%;
+    height: 15%;
+    text-align: center;
+    margin-top: 13%;
+    margin-bottom: 0px;
+}
+
+#content
+{
+    width:100%;
+    height: 70%;
+    margin-top: 0px;
+    text-align: center;
+}
+
+#footing
+{
+    width: 100%;
+    height: 15%;
+    text-align: center;
+    margin-top: 300px;
+}
+
+h1{
+    color: dimgray;
+    text-align: center;
+    font-size: 50px;
+}
+
+.search_text
+{
+  margin:0px;
+  height: 30px;
+  width: 400px;
+  border:1px solid #0000ff
+}
+
+.search_button
+{
+  margin: 0px;
+  padding:4px 35px;
+  color:#ffffff;
+  font:16px "Microsoft YaHei", Verdana, Geneva, sans-serif;
+  background-color:#1E90FF;
+  margin-left: 0px;
+}
