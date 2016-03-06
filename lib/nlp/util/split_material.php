@@ -1,9 +1,9 @@
 <?php
 
-chdir("db");
+chdir("../db");
 
-$hand_read = fopen( "title.txt", 'r' );
-$hand_write = fopen( "split_title.txt", 'w+' );
+$hand_read = fopen( "material.txt", 'r' );
+$hand_write = fopen( "split_material.txt", 'w+' );
 
 $so = scws_new();
 $so->set_charset('utf8');

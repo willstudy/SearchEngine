@@ -1,34 +1,33 @@
 <?php
 /* 分词，默认只分名词 */
-function split_word( $text, $num = 5 , $charset='n' ) 
+function split_word( $text ) 
 {
-
-	$sh = scws_open();
-
-	scws_set_charset($sh, 'utf8');
-	scws_set_dict($sh, '/usr/local/scws/etc/dict.utf8.xdb');
-	scws_set_rule($sh, '/usr/local/scws/etc/rules.utf8.ini');
-
-	scws_send_text($sh, $text);
-	$top = scws_get_tops($sh, $num, $charset );
-
 	$result = array();
-	$num = count($top);
+	$index = 0;
 
-	for( $i = 0; $i < $num; $i++ )
+	$so = scws_new();
+	$so->set_charset('utf8');
+
+	$so->send_text( $text );
+
+	while( $tmp = $so->get_result() )
 	{
-		$result[$i] = $top[$i]['word'];
-	}
+		$num = count( $tmp );
 
+		for( $i = 0; $i < $num; $i++ )
+		{
+			$result[$index++] = $tmp[$i]['word'];
+		}
+	}
 	return $result;
 }
+
 /* 进行同义词扩展 */
 function syno( $arr )
 {
 
 	$syno_file = "./lib/nlp/db/syno.db";
 	$hand = fopen( $syno_file, 'r' );
-	print_r( $arr );
 
 	if( !$hand )
 	{
@@ -70,6 +69,7 @@ function syno( $arr )
 
 	return array_unique($result);
 }
+
 /*
  *  核心模块：基于贝叶斯公式，定制的一个分类器，经测试准度较高
  */
@@ -155,15 +155,15 @@ function gather( $str )
 
 	$min_probe = min( $title, $material, $type );
 	/* 如果概率相差不大，就可以加入此类型中 */
-	if( $title / $min_probe <= 2 )
+	if( $title / $min_probe <= 1.618 )
 	{
 		$result['title'] = $title;
 	}
-	if( $material / $min_probe <= 2 )
+	if( $material / $min_probe <= 1.618 )
 	{
 		$result['material'] = $material;
 	}
-	if( $type / $min_probe <= 2 )
+	if( $type / $min_probe <= 1.618 )
 	{
 		$result['type'] = $type;
 	}
@@ -173,4 +173,122 @@ function gather( $str )
 	return $result;
 }
 
+/*
+ * 输入：文件指针
+ * 输出：解析后，保存词关联度的数据结构
+ */
+function parse_association( $file_hand )
+{
+	$result = array();
+
+	while( !feof($file_hand) )
+	{
+		$buffer = fgets( $file_hand, 1024 );
+		$buffer = trim( $buffer );
+		$temp = split( '[:]', $buffer );
+		
+		$num = count( $temp );
+		
+		$word_list = array();
+		for( $i = 1; $i < $num; $i += 2 )
+		{
+			$word_list[$temp[$i]] = $temp[$i+1];	
+		}
+		$result[$temp[0]] = $word_list;
+	}
+
+	return $result;
+}
+
+/*
+ * 得到指定分类的词关联度
+ */
+function get_association( $classify )
+{
+	chdir('/var/www');
+	$title_flag = 0;
+	$material_flag = 0;
+	$type_flag = 0;
+
+	$association = array();
+	$num = count($classify);	
+
+	for( $i = 0; $i < $num; $i++ )
+	{
+		if( array_key_exists('title', $classify ) && $title_flag == 0 )
+		{
+			$title_file = fopen('./lib/nlp/db/associate_title.txt', 'r');
+
+			if( !$title_file )
+			{
+				echo "file associate_title.txt open failed!\n";
+				exit(1);
+			}
+
+			$title_flag++;
+			$association['title'] = parse_association( $title_file );
+		}
+
+		if( array_key_exists('material', $classify ) && $material_flag == 0 )
+		{
+			$material_file = fopen('./lib/nlp/db/associate_material.txt', 'r');
+
+			if( !$material_file )
+			{
+				echo "file associate_material.txt open failed!\n";
+				exit(1);
+			}
+
+			$material_flag++;
+			$association['material'] = parse_association( $material_file );
+		}
+		if( array_key_exists('type', $classify ) && $type_flag == 0 )
+		{
+			$type_file = fopen('./lib/nlp/db/associate_type.txt', 'r');
+
+			if( !$type_file )
+			{
+				echo "file associate_type.txt open failed!\n";
+				exit(1);
+			}
+
+			$type_flag++;
+			$association['type'] = parse_association( $type_file );
+		}
+	}
+
+	return $association;
+}
+
+/*
+ * 根据同义词扩展后的词条、类别和词关联表，来生成一个sql查询语句数组，
+ * 并分配合适的权重。
+ */
+function generate_sql( $final_word, $classify, $association )
+{
+	$result = array();
+	
+}
+
+/*
+ * 输入：用户的输入
+ * 输出：不同的SQL查询语句已经对应的权重
+ */
+function nlp_hander( $search_text )
+{
+	$sql_array = array();
+
+	/* 对用户的输入进行分词  */
+	$final_text = split_word( $search_text );
+	/* 同义词扩展 */
+	$final = syno( $final_text );
+	/* 贝叶斯公式，对用户输入进行分类 */
+	$classify = gather( $final );
+	/* 根据分类结果，获取词关联度词典 */
+	$association = get_association( $classify );
+	
+	$sql_array = generate_sql( $final, $classify, $association );
+
+	return $sql_array;
+}
 ?>

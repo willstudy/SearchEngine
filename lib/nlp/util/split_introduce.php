@@ -1,6 +1,6 @@
 <?php
 
-chdir("db");
+chdir("../db");
 
 $hand_read = fopen( "introduce.txt", 'r' );
 $hand_write = fopen( "split_introduce.txt", 'w+' );

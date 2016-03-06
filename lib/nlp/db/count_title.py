@@ -13,8 +13,8 @@ dictory = {}
 word_set = []
 new_dict = {}
 
-file_read = open('split_material.txt', 'r')
-file_write = open('percent_material.txt', 'w+')
+file_read = open('split_title.txt', 'r')
+file_write = open('percent_title.txt', 'w+')
 
 for line in file_read.readlines():
 	line = line.strip('\n')

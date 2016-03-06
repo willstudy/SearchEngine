@@ -1,6 +1,6 @@
 <?php
 
-require_once("nlp.php");
+require_once("../nlp.php");
 
 $arr = array();
 

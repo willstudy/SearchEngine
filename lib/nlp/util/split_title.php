@@ -1,9 +1,9 @@
 <?php
 
-chdir("db");
+chdir("../db");
 
-$hand_read = fopen( "tip.txt", 'r' );
-$hand_write = fopen( "split_tip.txt", 'w+' );
+$hand_read = fopen( "title.txt", 'r' );
+$hand_write = fopen( "split_title.txt", 'w+' );
 
 $so = scws_new();
 $so->set_charset('utf8');
@@ -35,7 +35,6 @@ while( !feof($hand_read) )
 			    $tmp[$i]['word'] == "，" ||
 			    $tmp[$i]['word'] == "、" ||
 			    $tmp[$i]['word'] == "？" ||
-			    $tmp[$i]['word'] == "NULL" ||
 			    $tmp[$i]['word'] == "：" ) continue;
 
 			fwrite( $hand_write, $tmp[$i]['word'] );

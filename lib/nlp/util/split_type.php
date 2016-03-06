@@ -1,9 +1,9 @@
 <?php
 
-chdir("db");
+chdir("../db");
 
-$hand_read = fopen( "step.txt", 'r' );
-$hand_write = fopen( "split_step.txt", 'w+' );
+$hand_read = fopen( "type.txt", 'r' );
+$hand_write = fopen( "split_type.txt", 'w+' );
 
 $so = scws_new();
 $so->set_charset('utf8');
@@ -31,11 +31,8 @@ while( !feof($hand_read) )
 		for( $i = 0; $i < $num; $i++ )
 		{
 			if( $tmp[$i]['word'] == "\n" ||
-			    $tmp[$i]['word'] == "。" ||
-			    $tmp[$i]['word'] == "，" ||
-			    $tmp[$i]['word'] == "、" ||
-			    $tmp[$i]['word'] == "？" ||
-			    $tmp[$i]['word'] == "：" ) continue;
+			    $tmp[$i]['word'] == "：" 
+			) continue;
 
 			fwrite( $hand_write, $tmp[$i]['word'] );
 			fwrite( $hand_write, "\n" );

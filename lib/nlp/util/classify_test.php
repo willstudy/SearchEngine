@@ -1,13 +1,25 @@
 <?php
-require_once("nlp.php");
+require_once("../nlp.php");
 
 $str = array();
 /*
-$str[0] = "西红柿";
-$str[1] = "蛋";
+$str[0] = "简单";
+$str[1] = "难度";
 */
+
+$str[0] = "醋溜";
+$str[1] = "白菜";
+
+/*
+$str[0] = "西红柿";
+$str[1] = "炒";
+$str[2] = "鸡蛋";
+*/
+/*
 $str[0] = "排毒";
 $str[1] = "养颜";
+*/
+print_r( $str );
 
 $result = gather( $str );
 
