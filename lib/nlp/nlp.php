@@ -272,7 +272,7 @@ function generate_sql( $final_word, $classify, $association )
 	$magic = 0.618;
 	$word_num = count( $final_word );
 
-	$sql = "SELECT id,url,title,picture,material,type FROM dish WHERE";
+	$sql = "SELECT id,url,title,picture,material,type,weight FROM dish WHERE";
 
 	if( array_key_exists( 'title', $classify ) ) {
 

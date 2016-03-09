@@ -51,14 +51,15 @@
       exit;
     }
 
-    $db = mysql_connect("139.129.129.74:3306", "****", "****");
+    $db = mysql_connect("139.129.129.74:3306", "disher", "disher");
 
     if( !$db )
     {
-      die('Could not connect: ' . mysql_error());
+    	echo "mysql_connect error!\n";
+	exit();
     }
 
-    mysql_select_db("fairy", $db);
+    mysql_select_db( "fairy", $db );
     mysql_query("set names 'utf8'");
 
     if( isset($_POST['search_text']) && $_POST['search_text'] != "" )
@@ -71,84 +72,129 @@
         $search_text = $_GET['search_text'];
     }
 
-    $time_now = time();
-
     require_once("./lib/nlp/nlp.php");
-    /* 对用户的输入进行分词  */
-    $final_text = split_word( $search_text );
-    /* 同义词扩展 */
-    $final = syno( $final_text );
-    /* 贝叶斯公式，对用户输入进行分类 */
-    $classify = gather( $final );
+    $time_now = microtime();
 
-    $title = 0;
-    $material = 0;
-    $type = 0;
+    /*
+     * 返回生成的SQL语句数组，以及对应的权重数组
+     */
+    $result = nlp_hander( $search_text );
+    $sql_array = $result[0];
+    $weight_array = $result[1];
+    $classify = $result[2];
 
-    $sql = "SELECT id,url,title,picture,material,type FROM dish WHERE";
+    $search_result = array();
+    $index = 0;
 
-    $num = count( $classify );
-    $word_num = count( $final );
-
-    for( $i = 0; $i < $num; $i++ )
+    if( array_key_exists('title_and', $weight_array) )
     {
-    	if( array_key_exists( 'title', $classify ) && $title == 0 )
+    	$weight = $weight_array['title_and'];
+	$sql = $sql_array['title_and'];
+
+	// 用and连起来的sql语句，是一个数组
+	$sql_num = count( $sql );
+	for( $i = 0; $i < $sql_num; $i++ )
 	{
-		$sql .= " title LIKE '%$final[0]%'";
-
-		for( $i = 1; $i < $word_num; $i++ )
+		$title_and_result = mysql_query( $sql[$i] );
+		
+		while( $row = mysql_fetch_array($title_and_result) )
 		{
-			$sql .= " OR title LIKE '%$final[$i]%'";
+			$row['weight'] = $row['weight'] * $weight;	
+			$search_result[$index++] = $row;
 		}
-	}
-    	if( array_key_exists( 'material', $classify ) && $material == 0 )
-	{
-		if( $num > 1 )
-		{
-			for( $i = 0; $i < $word_num; $i++ )
-			{
-				$sql .= " OR material LIKE '%$final[$i]%'";
-			}
-		}
-		else
-		{
-			$sql .= " material LIKE '%$final[0]%'";
-
-			for( $i = 1; $i < $word_num; $i++ )
-			{
-				$sql .= " OR material LIKE '%$final[$i]%'";
-			}
-		}
-
-		$material++;
-	}
-    	if( array_key_exists( 'type', $classify ) && $type == 0 )
-	{
-		if( $num > 1 )
-		{
-			for( $i = 0; $i < $word_num; $i++ )
-			{
-				$sql .= " OR type LIKE '%$final[$i]%'";
-			}
-
-		}
-		else
-		{
-			$sql .= " type LIKE '%$final[0]%'";
-
-			for( $i = 1; $i < $word_num; $i++ )
-			{
-				$sql .= " OR type LIKE '%$final[$i]%'";
-			}
-		}
-
-		$type++;
 	}
     }
 
-    $result = mysql_query($sql);
-    $row_count = mysql_num_rows($result);
-    $time_end = time();
+    if( array_key_exists('title_or', $weight_array) )
+    {
+    	$weight = $weight_array['title_or'];
+	$sql = $sql_array['title_or'];            // 用or连起来的sql语句，在数组中只占一个位置
+
+	$title_or_result = mysql_query( $sql );
+	
+	while( $row = mysql_fetch_array($title_or_result) )
+	{
+		$row['weight'] = $row['weight'] * $weight;	
+		$search_result[$index++] = $row;
+	}
+    }
+    
+    if( array_key_exists('material_and', $weight_array) )
+    {
+    	$weight = $weight_array['material_and'];
+	$sql = $sql_array['material_and'];
+
+	$sql_num = count( $sql );
+	for( $i = 0; $i < $sql_num; $i++ )
+	{
+		$material_and_result = mysql_query( $sql[$i] );
+		
+		while( $row = mysql_fetch_array($material_and_result) )
+		{
+			$row['weight'] = $row['weight'] * $weight;	
+			$search_result[$index++] = $row;
+		}
+	}
+    }
+    
+    if( array_key_exists('material_or', $weight_array) )
+    {
+    	$weight = $weight_array['material_or'];
+	$sql = $sql_array['material_or'];
+
+	$material_or_result = mysql_query( $sql );
+	
+	while( $row = mysql_fetch_array($material_or_result) )
+	{
+		$row['weight'] = $row['weight'] * $weight;	
+		$search_result[$index++] = $row;
+	}
+    }
+
+    if( array_key_exists('type_and', $weight_array) )
+    {
+    	$weight = $weight_array['type_and'];
+	$sql = $sql_array['type_and'];
+
+	$sql_num = count( $sql );
+	for( $i = 0; $i < $sql_num; $i++ )
+	{
+		$type_and_result = mysql_query( $sql[$i] );
+		
+		while( $row = mysql_fetch_array($type_and_result) )
+		{
+			$row['weight'] = $row['weight'] * $weight;	
+			$search_result[$index++] = $row;
+		}
+	}
+    }
+
+    if( array_key_exists('type_or', $weight_array) )
+    {
+    	$weight = $weight_array['type_or'];
+	$sql = $sql_array['type_or'];
+
+	$type_or_result = mysql_query( $sql );
+	
+	while( $row = mysql_fetch_array($type_or_result) )
+	{
+		$row['weight'] = $row['weight'] * $weight;	
+		$search_result[$index++] = $row;
+	}
+    }
+/*
+    function sort_by_weight( $a, $b )
+    {
+    	if( $a['weight'] == $b['weight'] ) return 0;
+
+	return $a['weight'] > $b['weight'] : 1, -1;
+    }
+
+    usort( $search_result, 'sort_by_weight' );
+*/
+    $row_count = count( $search_result );
+
+    $time_end = microtime();
 
     $row_per_page = 8;
     $page_total = ceil( $row_count / $row_per_page );
@@ -168,39 +214,32 @@
     <p>共找到 <?php echo $row_count;?> 条记录，用时:<?php echo $time_end - $time_now; ?> 秒</p>
     <?php
     $start_now = ($page_num - 1) * $row_per_page;
-
-    $sql_new = $sql;
-    $sql_new .= " LIMIT $start_now,$row_per_page";
-    $result_new = mysql_query($sql_new);
     ?>
     <table id="big_table" cellspacing="0" cellpadding="0">
       <?php
-        if( $myrow = mysql_fetch_array($result_new) )
-        {
-          $i = 0;
-          do {
-            $i++;
+      	for( $i = $start_now; $i < $start_now + 8; $i++ )
+	{
             ?>
             <tr>
               <td>
                 <table class="small_table" cellspacing="0" cellpadding="0">
                   <tr>
                     <td>
-                      <img class="pic" src="<?php echo $myrow['picture'];?>" height="100" width="100" alt="<?php echo $myrow['title'];?>">
+                      <img class="pic" src="<?php echo $search_result[$i]['picture'];?>" height="100" width="100" alt="<?php echo $search_result[$i]['title'];?>">
                     </td>
                     <td>
                       <table class="show_table">
                         <tr>
                           <td>
-                            <a href="<?php echo $myrow['url'];?>" target="_blank"><b><?php echo $myrow['title']?></b></a>
+                            <a href="<?php echo $search_result[$i]['url'];?>" target="_blank"><b><?php echo $search_result[$i]['title']?></b></a>
                           </td>
                           <tr>
                             <td>
-                              <b>原料：</b><?php echo $myrow['material']; ?>
+                              <b>原料：</b><?php echo $search_result[$i]['material']; ?>
                             </td>
                           <tr>
                             <td>
-                              <b>类型：<?php echo $myrow['type']; ?></b>
+                              <b>类型：<?php echo $search_result[$i]['type']; ?></b>
                             </td>
                           </tr>
                         </table>
@@ -210,7 +249,6 @@
               </td>
             </tr>
       <?php
-      }while( $myrow = mysql_fetch_array($result_new) );
     }
       ?>
     </table>
