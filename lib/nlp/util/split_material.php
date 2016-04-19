@@ -35,12 +35,15 @@ while( !feof($hand_read) )
 			    $tmp[$i]['word'] == "，" ||
 			    $tmp[$i]['word'] == "、" ||
 			    $tmp[$i]['word'] == "？" ||
+			    $tmp[$i]['word'] == "【" ||
+			    $tmp[$i]['word'] == "】" ||
 			    $tmp[$i]['word'] == "：" ) continue;
 
 			fwrite( $hand_write, $tmp[$i]['word'] );
-			fwrite( $hand_write, "\n" );
+			fwrite( $hand_write, ' ' );
 		}
 	}
+	fwrite( $hand_write, "\n" );
 }
 
 $so->close();

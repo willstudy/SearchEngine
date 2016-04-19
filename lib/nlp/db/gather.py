@@ -11,9 +11,9 @@ file_material = open('percent_material.txt', 'r')
 file_type = open('percent_type.txt', 'r')
 file_gather = open('gather.txt', 'w+')
 
-title_num = 123320
-material_num = 292582
-type_num = 495875
+title_num = 185228
+material_num = 393715
+type_num = 720037
 
 laplace_title = 1 / ( title_num * 2 )
 laplace_material = 1 / ( material_num * 2 )
