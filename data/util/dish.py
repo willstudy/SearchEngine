@@ -68,14 +68,14 @@ class Store :
 
 		try :
 
-			self.url = filename.readline()
-			self.title = filename.readline()
-			self.introduce = filename.readline()
-			self.picture = filename.readline()
-			self.material = filename.readline()
-			self.craft = filename.readline()
-			self.step = filename.readline()
-			self.tip = filename.readline()
+			self.url = filename.readline().strip()
+			self.title = filename.readline().strip()
+			self.introduce = filename.readline().strip()
+			self.picture = filename.readline().strip()
+			self.material = filename.readline().strip()
+			self.craft = filename.readline().strip()
+			self.step = filename.readline().strip()
+			self.tip = filename.readline().strip()
 			self.weight = self.GetWeight()
 			filename.readline()
 

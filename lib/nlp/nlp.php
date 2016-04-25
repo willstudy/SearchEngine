@@ -26,7 +26,7 @@ function split_word( $text )
 function syno( $arr )
 {
 	chdir("/var/www/");
-	$syno_file = "./lib/nlp/db/syno.db";
+	$syno_file = "./model/Synonym/syno.db";
 	$hand = fopen( $syno_file, 'r' );
 
 	if( !$hand )
@@ -71,13 +71,12 @@ function syno( $arr )
 }
 
 /*
- *  核心模块：基于贝叶斯公式，定制的一个分类器，经测试准度较高
+ *  基于朴素贝叶斯原理，定制的一个分类器，经测试准度较高
  */
 function gather( $str ) 
 {
 
-	chdir("./lib/nlp/db");
-//	chdir("db");
+	chdir("./model/Bayes/bayes_father/data");
 
 	$hand_read = fopen( "gather.txt", 'r' );
 
@@ -201,7 +200,11 @@ function parse_association( $file_hand )
 }
 
 /*
- * 得到指定分类的词关联度
+ * 得到指定分类的词关联度，关联的计算方法为：
+ *             
+ *		    C( A -> B )  	置信度
+ *	A -> B = ---------------
+ *                  S( B )		支持度
  */
 function get_association( $classify )
 {
@@ -217,7 +220,7 @@ function get_association( $classify )
 	{
 		if( array_key_exists('title', $classify ) && $title_flag == 0 )
 		{
-			$title_file = fopen('./lib/nlp/db/associate_title.txt', 'r');
+			$title_file = fopen('./model/Association/data/associate_title.txt', 'r');
 
 			if( !$title_file )
 			{
@@ -231,7 +234,7 @@ function get_association( $classify )
 
 		if( array_key_exists('material', $classify ) && $material_flag == 0 )
 		{
-			$material_file = fopen('./lib/nlp/db/associate_material.txt', 'r');
+			$material_file = fopen('./model/Association/data/associate_material.txt', 'r');
 
 			if( !$material_file )
 			{
@@ -244,7 +247,7 @@ function get_association( $classify )
 		}
 		if( array_key_exists('type', $classify ) && $type_flag == 0 )
 		{
-			$type_file = fopen('./lib/nlp/db/associate_type.txt', 'r');
+			$type_file = fopen('./model/Association/data/associate_type.txt', 'r');
 
 			if( !$type_file )
 			{
