@@ -104,10 +104,6 @@ function title_classifier( $final_word )
 	return $result;
 }
 
-function load_model()
-{
-}
-
 /*
  *  返回的是一个保存菜名id的数组
  *  这个数组中保存的id所对应的菜，均与参数菜名有近似的主题分布
@@ -115,6 +111,50 @@ function load_model()
  */
 function lda_inference( $final_text )
 {
+	$id = Array();
+	$index = 0;
+
+	$result = title_classifier( $final_text );
+	
+	require_once('./lda.php');
+
+	$lda = new LDA();
+
+	if( array_key_exists( 'recai', $result ) ) {
+		$model_file = "/var/www/model/LDA/data/recai_model.txt";
+		$theta_file = "/var/www/model/LDA/data/recai_theta.txt";
+
+		$lda->load_model($model_file);
+		$lda->load_theta($model_file);
+		$lda->initial($final_text);
+		$lda->inference();
+
+		$id[$index++] = $lda->get_similar();
+	}
+	if( array_key_exists( 'tanggeng', $result ) ) {
+		$model_file = "/var/www/model/LDA/data/tanggeng_model.txt";
+		$theta_file = "/var/www/model/LDA/data/tanggeng_theta.txt";
+
+		$lda->load_model($model_file);
+		$lda->load_theta($model_file);
+		$lda->initial($final_text);
+		$lda->inference();
+
+		$id[$index++] = $lda->get_similar();
+	}
+	if( array_key_exists( 'xiaochi', $result ) ) {
+		$model_file = "/var/www/model/LDA/data/xiaochi_model.txt";
+		$theta_file = "/var/www/model/LDA/data/xiaochi_theta.txt";
+
+		$lda->load_model($model_file);
+		$lda->load_theta($model_file);
+		$lda->initial($final_text);
+		$lda->inference();
+
+		$id[$index++] = $lda->get_similar();
+	}
+
+	return $id;
 }
 
 ?>
