@@ -11,10 +11,25 @@
 
 <body>
 
+<?php
+
+    $search_text = "";
+
+    if( isset($_POST['search_text']) && $_POST['search_text'] != "" )
+    {
+        $search_text = $_POST['search_text'];
+    }
+
+    if( $_GET ) {
+        $page_num = $_GET['page_num']? $_GET['page_num']:1 ;
+        $search_text = $_GET['search_text'];
+    }
+?>
+
   <div id="header">
     <form action="./server.php" method="post">
       <a id="index" href="./index.php">精灵</a>
-      <input class="search_text" name="search_text" type="text">
+      <input class="search_text" name="search_text" type="text" value="<?php echo $search_text;?>">
       <input class="search_button" name="search_button" type="submit" value="搜 索" >
     </form>
   </div>
@@ -27,7 +42,6 @@
     $cache = './data/cache.txt';
 
     $page_num = 1;
-    $search_text = "";
 
     $handle = fopen($log, 'a+');
     $handle_error = fopen($error_log, 'a+');
@@ -215,7 +229,7 @@
                 <table class="small_table" cellspacing="0" cellpadding="0">
                   <tr>
                     <td>
-                      <img class="pic" src="<?php echo $search_result[$i]['picture'];?>" height="100" width="100" alt="<?php echo $search_result[$i]['title'];?>">
+                      <a href="<?php echo $search_result[$i]['url'];?>" target="_blank"><img class="pic" src="<?php echo $search_result[$i]['picture'];?>" height="100" width="100" alt="<?php echo $search_result[$i]['title'];?>"></a>
                     </td>
                     <td>
                       <table class="show_table">

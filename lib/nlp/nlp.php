@@ -302,7 +302,8 @@ function get_association( $classify )
 	{
 		if( array_key_exists('title', $classify ) && $title_flag == 0 )
 		{
-			$title_file = fopen('./model/Association/data/associate_title.txt', 'r');
+			//$title_file = fopen('./model/Association/data/associate_title.txt', 'r');
+			$title_file = fopen('./model/Association/data/title_associate.txt', 'r');
 
 			if( !$title_file )
 			{
@@ -316,7 +317,8 @@ function get_association( $classify )
 
 		if( array_key_exists('material', $classify ) && $material_flag == 0 )
 		{
-			$material_file = fopen('./model/Association/data/associate_material.txt', 'r');
+			//$material_file = fopen('./model/Association/data/associate_material.txt', 'r');
+			$material_file = fopen('./model/Association/data/material_associate.txt', 'r');
 
 			if( !$material_file )
 			{
@@ -329,7 +331,8 @@ function get_association( $classify )
 		}
 		if( array_key_exists('type', $classify ) && $type_flag == 0 )
 		{
-			$type_file = fopen('./model/Association/data/associate_type.txt', 'r');
+			//$type_file = fopen('./model/Association/data/associate_type.txt', 'r');
+			$type_file = fopen('./model/Association/data/type_associate.txt', 'r');
 
 			if( !$type_file )
 			{
