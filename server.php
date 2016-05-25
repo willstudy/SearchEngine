@@ -44,13 +44,13 @@
       echo "不能打开文件$error_log\n";
       exit;
     }
-
+/*
     if( ! $handle_cache )
     {
       echo "不能打开文件$cache\n";
       exit;
     }
-
+*/
     $db = mysql_connect("139.129.129.74:3306", "disher", "disher");
 
     if( !$db )
@@ -75,9 +75,7 @@
     require_once("./lib/nlp/nlp.php");
     $time_now = microtime();
 
-    /*
-     * 返回生成的SQL语句数组，以及对应的权重数组
-     */
+    /* 返回生成的SQL语句数组，以及对应的权重数组 */
     $result = nlp_hander( $search_text );
     $sql_array = $result[0];
     $weight_array = $result[1];
@@ -91,7 +89,7 @@
     	$weight = $weight_array['title_and'];
 	$sql = $sql_array['title_and'];
 
-	// 用and连起来的sql语句，是一个数组
+	/* 用and连起来的sql语句，是一个数组 */
 	$sql_num = count( $sql );
 	for( $i = 0; $i < $sql_num; $i++ )
 	{
@@ -182,17 +180,9 @@
 		$search_result[$index++] = $row;
 	}
     }
-/*
-    function sort_by_weight( $a, $b )
-    {
-    	if( $a['weight'] == $b['weight'] ) return 0;
 
-	return $a['weight'] > $b['weight'] : 1, -1;
-    }
-
-    usort( $search_result, 'sort_by_weight' );
-*/
     $row_count = count( $search_result );
+    quickSort( $search_result, 0, $row_count - 1 );
 
     $time_end = microtime();
 

@@ -1,4 +1,49 @@
 <?php
+
+/* 对查询的结果数组以权重的递减排序 
+ * 
+ * 数组的每一个元素都是一个完整的菜，包括
+ *
+ * row['title'], row['url'], ... , row['weight']
+ * 
+ * 这里以 row['weight'] 字段的值进行排序
+ */
+function quickSort( Array &$arr, $start, $end ) 
+{
+	$low = $start;
+	$high = $end;
+        
+        /* 同时移动low和high,low找比$arr[$start]小的元素,high找比$arr[$start]大的元素
+         * 交换大小元素位置,直到 low = high 
+	 */
+        while( $low != $high ) 
+	{
+            while( $arr[$low]['weight'] >= $arr[$start]['weight'] && $low != $high ) {
+                ++$low;
+            }
+            while( $arr[$high]['weight'] <= $arr[$start]['weight'] && $low != $high ) {
+                --$high;
+            }
+
+            $temp = $arr[$low];
+            $arr[$low] = $arr[$high];
+            $arr[$high] = $temp;
+        }
+        
+        /* 如果low和high指向的元素小于$arr[$start],交换$arr[$start]和这个元素
+         * 否则交换$arr[$start]和low指向的前一个元素,然后进入递归
+	 */
+        if( $low != $start && $arr[$low]['weight'] < $arr[$start]['weight'] ) $low--;
+
+        $temp = $arr[$low];
+        $arr[$low] = $arr[$start];
+        $arr[$start] = $temp;
+        
+        /* 递归中止条件是切分后的部分只剩下一个元素 */
+        if( $low - 1 > $start ) quickSort( $arr, $start, $low - 1 );
+        if( $low + 1 < $end ) quickSort( $arr, $low + 1, $end );
+}
+
 /* 分词，默认只分名词 */
 function split_word( $text ) 
 {
@@ -19,6 +64,43 @@ function split_word( $text )
 			$result[$index++] = $tmp[$i]['word'];
 		}
 	}
+	return $result;
+}
+
+/* 分词后的过滤，过滤一些语气词和只有一个字的词 */ 
+function filter_word( $arr )
+{
+	chdir("/var/www/");
+	$syno_file = "./model/Filter/filter.db";
+	$hand = fopen( $syno_file, 'r' );
+
+	if( !$hand )
+	{
+		echo "file $syno_file open failed!";
+		exit(1);
+	}
+
+	$result = Array();
+	$word_array = Array();
+	$index = 0;
+	
+	while( $buffer = fgets( $hand, 1024 ) )
+	{
+		$buffer = trim( $buffer );
+		$word_array[$index++] = $buffer;
+	}
+
+	$num = count($arr);
+	$index = 0;
+
+	for( $i = 0; $i < $num; $i++ ) 
+	{
+		if( strlen($arr[$i]) < 4 ) continue;
+		if( in_array( $arr[$i], $word_array ) ) continue;
+
+		$result[$index++] = $arr[$i];
+	}
+
 	return $result;
 }
 
@@ -530,8 +612,10 @@ function nlp_hander( $search_text )
 
 	/* 对用户的输入进行分词  */
 	$final_text = split_word( $search_text );
+	/* 过滤一些单词 */
+	$result = filter_word( $final_text );
 	/* 同义词扩展 */
-	$final = syno( $final_text );
+	$final = syno( $result );
 	/* 贝叶斯公式，对用户输入进行分类 */
 	$classify = gather( $final );
 	/* 根据分类结果，获取词关联度词典 */
