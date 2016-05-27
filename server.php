@@ -48,8 +48,6 @@ function update_weight( url )
     $error_log = './log/error.log';
     $cache = './data/cache.txt';
 
-    $page_num = 1;
-
     $handle = fopen($log, 'a+');
     $handle_error = fopen($error_log, 'a+');
     $handle_cache = fopen($cache, 'w+');

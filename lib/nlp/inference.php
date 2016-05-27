@@ -112,7 +112,6 @@ function title_classifier( $final_word )
 function lda_inference( $final_text )
 {
 	$id = Array();
-	$index = 0;
 
 	$result = title_classifier( $final_text );
 	
@@ -129,7 +128,7 @@ function lda_inference( $final_text )
 		$lda->initial($final_text);
 		$lda->inference();
 
-		$id[$index++] = $lda->get_similar();
+		$id['recai'] = $lda->get_similar();
 	}
 	if( array_key_exists( 'tanggeng', $result ) ) {
 		$model_file = "/var/www/model/LDA/data/tanggeng_model.txt";
@@ -140,7 +139,7 @@ function lda_inference( $final_text )
 		$lda->initial($final_text);
 		$lda->inference();
 
-		$id[$index++] = $lda->get_similar();
+		$id['tanggeng'] = $lda->get_similar();
 	}
 	if( array_key_exists( 'xiaochi', $result ) ) {
 		$model_file = "/var/www/model/LDA/data/xiaochi_model.txt";
@@ -151,7 +150,7 @@ function lda_inference( $final_text )
 		$lda->initial($final_text);
 		$lda->inference();
 
-		$id[$index++] = $lda->get_similar();
+		$id['xiaochi'] = $lda->get_similar();
 	}
 
 	return $id;

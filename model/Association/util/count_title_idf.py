@@ -9,7 +9,7 @@ import os
 这些词包括：
 
 1：在每条记录中出现频度高
-2：只包含2个汉字
+2：只包含2-3个汉字
 
 目的是为了只为了计算这些词之间的关联度，减少计算量
 """
@@ -23,7 +23,7 @@ with open('../data/split_title.txt', 'r') as title_file:
 		title.append(line)
 		line = line.split(' ')
 		for word in line:
-			if len(word) < 4 or len(word) > 6:
+			if len(word) < 4 or len(word) > 9:
 				continue
 			words.append(word)
 

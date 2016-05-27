@@ -23,7 +23,7 @@ with open('../data/split_material.txt', 'r') as title_file:
 		title.append(line)
 		line = line.split(' ')
 		for word in line:
-			if len(word) < 4 or len(word) > 6:
+			if len(word) < 4 or len(word) > 9:
 				continue
 			words.append(word)
 
