@@ -10,6 +10,13 @@
 </head>
 
 <body>
+<script src="//cdn.bootcss.com/jquery/1.12.4/jquery.js"></script>
+<script type="text/javascript"> 
+function update_weight( url )
+{ 
+	$.post("http://localhost/update_weight.php", { name : url } );
+}
+</script>
 
 <?php
 
@@ -75,16 +82,6 @@
 
     mysql_select_db( "fairy", $db );
     mysql_query("set names 'utf8'");
-
-    if( isset($_POST['search_text']) && $_POST['search_text'] != "" )
-    {
-        $search_text = $_POST['search_text'];
-    }
-
-    if( $_GET ) {
-        $page_num = $_GET['page_num']? $_GET['page_num']:1 ;
-        $search_text = $_GET['search_text'];
-    }
 
     require_once("./lib/nlp/nlp.php");
     $time_now = microtime();
@@ -229,13 +226,13 @@
                 <table class="small_table" cellspacing="0" cellpadding="0">
                   <tr>
                     <td>
-                      <a href="<?php echo $search_result[$i]['url'];?>" target="_blank"><img class="pic" src="<?php echo $search_result[$i]['picture'];?>" height="100" width="100" alt="<?php echo $search_result[$i]['title'];?>"></a>
+                      <a href="<?php echo $search_result[$i]['url'];?>" target="_blank" onclick=update_weight('<?php echo $search_result[$i]['url'];?>')><img class="pic" src="<?php echo $search_result[$i]['picture'];?>" height="100" width="100" alt="<?php echo $search_result[$i]['title'];?>"></a>
                     </td>
                     <td>
                       <table class="show_table">
                         <tr>
                           <td>
-                            <a href="<?php echo $search_result[$i]['url'];?>" target="_blank"><b><?php echo $search_result[$i]['title']?></b></a>
+                            <a href="<?php echo $search_result[$i]['url'];?>" target="_blank" onclick=update_weight('<?php echo $search_result[$i]['url'];?>')><b><?php echo $search_result[$i]['title']?></b></a>
                           </td>
                           <tr>
                             <td>
